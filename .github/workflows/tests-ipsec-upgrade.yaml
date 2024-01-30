@@ -153,6 +153,11 @@ jobs:
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
         with:
           ref: ${{ inputs.context-ref || github.sha }}
+          # We need some context on the last commit to determine whether we're
+          # on a release preparation commit, in which case the script
+          # print-downgrade-version.sh needs to adjust the patch release number
+          # to downgrade to.
+          fetch-depth: 2
           persist-credentials: false
 
       - name: Set Environment Variables

@@ -19,15 +19,24 @@ fi
 
 if [[ ${1-} == "patch" ]] ; then
     # If user passed "patch" as first argument, print the latest patch version
-    case ${patch} in
-        0)
-            >&2 echo "ERROR: failed to deduce patch release previous to version '$VERSION'"
-            exit 1
-            ;;
-        *)
-            echo "v${major}.${minor}.${patch}${TAG_SUFFIX:-}"
-            ;;
-    esac
+
+    # Hack: When working on a patch release preparation commit, file VERSION
+    # contains the new value for the release that is yet to be tagged and
+    # published. In this case, we want to downgrade to the previous patch
+    # release.
+    # Skip this step if we're not in a Git repository or if there is no more
+    # than one commit (likely a shallow clone).
+    if git rev-parse --is-inside-work-tree &> /dev/null && \
+        git rev-parse --verify HEAD^ &> /dev/null && \
+        git diff --name-only HEAD^..HEAD | grep -q "^VERSION$"; then
+        patch=$((patch - 1))
+    fi
+    if [[ "${patch}" -le "0" ]] ; then
+        >&2 echo "ERROR: failed to deduce patch release previous to version '$VERSION'"
+        exit 1
+    else
+        echo "v${major}.${minor}.${patch}${TAG_SUFFIX:-}"
+    fi
 else
     if [[ "${minor}" == "0" ]] ; then
         >&2 echo "ERROR: failed to deduce release previous to version '$VERSION'"
