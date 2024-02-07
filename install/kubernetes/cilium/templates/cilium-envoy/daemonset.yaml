@@ -158,6 +158,12 @@ spec:
           containerPort: {{ .Values.proxy.prometheus.port | default .Values.envoy.prometheus.port }}
           hostPort: {{ .Values.proxy.prometheus.port | default .Values.envoy.prometheus.port }}
           protocol: TCP
+        {{- if .Values.envoy.admin.port }}
+        - name: envoy-admin
+          containerPort: {{ .Values.proxy.prometheus.port | default .Values.envoy.admin.port }}
+          hostPort: {{ .Values.proxy.prometheus.port | default .Values.envoy.admin.port }}
+          protocol: TCP
+        {{- end }}
         {{- end }}
         securityContext:
           {{- if .Values.envoy.securityContext.privileged }}

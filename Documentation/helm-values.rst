@@ -1072,6 +1072,14 @@
      - Update ENI Adapter limits from the EC2 API
      - bool
      - ``true``
+   * - :spelling:ignore:`envoy.admin.enabled`
+     - Enable admin interface for cilium-envoy.
+     - bool
+     - ``false``
+   * - :spelling:ignore:`envoy.admin.port`
+     - Port for the admin interface.
+     - int
+     - ``9901``
    * - :spelling:ignore:`envoy.affinity`
      - Affinity for cilium-envoy.
      - object

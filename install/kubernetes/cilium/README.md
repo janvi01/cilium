@@ -318,6 +318,8 @@ contributors across the globe, there is almost always someone available to help.
 | eni.subnetIDsFilter | list | `[]` | Filter via subnet IDs which will dictate which subnets are going to be used to create new ENIs Important note: This requires that each instance has an ENI with a matching subnet attached when Cilium is deployed. If you only want to control subnets for ENIs attached by Cilium, use the CNI configuration file settings (cni.customConf) instead. |
 | eni.subnetTagsFilter | list | `[]` | Filter via tags (k=v) which will dictate which subnets are going to be used to create new ENIs Important note: This requires that each instance has an ENI with a matching subnet attached when Cilium is deployed. If you only want to control subnets for ENIs attached by Cilium, use the CNI configuration file settings (cni.customConf) instead. |
 | eni.updateEC2AdapterLimitViaAPI | bool | `true` | Update ENI Adapter limits from the EC2 API |
+| envoy.admin.enabled | bool | `false` | Enable admin interface for cilium-envoy. |
+| envoy.admin.port | int | `9901` | Port for the admin interface. |
 | envoy.affinity | object | `{"podAntiAffinity":{"requiredDuringSchedulingIgnoredDuringExecution":[{"labelSelector":{"matchLabels":{"k8s-app":"cilium-envoy"}},"topologyKey":"kubernetes.io/hostname"}]}}` | Affinity for cilium-envoy. |
 | envoy.annotations | object | `{}` | Annotations to be added to all top-level cilium-envoy objects (resources under templates/cilium-envoy) |
 | envoy.baseID | int | `0` |  Set Envoy'--base-id' to use when allocating shared memory regions. Only needs to be changed if multiple Envoy instances will run on the same node and may have conflicts. Supported values: 0 - 4294967295. Defaults to '0' |
